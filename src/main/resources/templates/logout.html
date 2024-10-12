@@ -7,9 +7,9 @@
 </head>
 <body>
 <div class="container">
-    <h2 class="mt-5">Logout Success</h2>
-    <p>You have been logged out successfully.</p>
-    <a href="/login" class="btn btn-primary">Login Again</a>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit" class="btn btn-danger">注销</button>
+    </form>
 </div>
 </body>
 </html>
