@@ -21,17 +21,24 @@ public class UserController {
     public UserService userService;
 
     @GetMapping("/list")
-    public List<User> getList(){
+    public List<User> getList() {
         return userService.list();
     }
 
     /**
-     * swaager : http://localhost:8081/doc.html
+     * swagger访问地址 : <a href="http://localhost:8081/doc.html">...</a>
+     *
      * @param user
      */
     @PostMapping("/add")
-    public void add(@RequestBody User user){
+    public void add(@RequestBody User user) {
         userService.saveUserDetails(user);
     }
+
+    @GetMapping("/test")
+    public String test() {
+        return "你有权限可以访问";
+    }
+
 
 }

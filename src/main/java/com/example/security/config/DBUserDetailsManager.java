@@ -39,6 +39,10 @@ public class DBUserDetailsManager implements UserDetailsManager, UserDetailsPass
             throw new UsernameNotFoundException("用户不存在");
         } else {
             Collection<GrantedAuthority> authorities = new ArrayList<>();
+            // 模拟数据库中权限列表，只有拥有这些权限的才能访问得到user/list,user/add
+            // 可以尝试注释掉一个，去访问一下
+            authorities.add(() -> "USER_LIST");
+            authorities.add(() -> "USER_ADD");
             return new org.springframework.security.core.userdetails.User(
                     user.getUsername(),
                     user.getPassword(),

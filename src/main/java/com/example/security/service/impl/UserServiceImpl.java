@@ -6,7 +6,6 @@ import com.example.security.entity.User;
 import com.example.security.mapper.UserMapper;
 import com.example.security.service.UserService;
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

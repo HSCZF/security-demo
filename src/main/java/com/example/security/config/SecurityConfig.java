@@ -1,5 +1,6 @@
 package com.example.security.config;
 
+import com.alibaba.fastjson2.JSON;
 import com.example.security.handler.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +9,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.springframework.security.web.SecurityFilterChain;
+
+import java.util.HashMap;
 
 /**
  * Description:
@@ -35,8 +38,10 @@ public class SecurityConfig {
         http.cors(Customizer.withDefaults()); // 跨域
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/public/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/user/list").hasAnyAuthority("USER_LIST")  // 具有USER_LIST权限的用户可以访问/user/list
+                        .requestMatchers("/user/add").hasAnyAuthority("USER_ADD")    // 具有USER_ADD权限的用户可以访问/user/add
+                        .anyRequest()       // 对所有请求开启授权保护
+                        .authenticated()    // 已认证的请求会被自动授权
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
@@ -56,6 +61,7 @@ public class SecurityConfig {
                 )
                 .exceptionHandling(exception -> {
                     exception.authenticationEntryPoint(new MyAuthenticationEntryPoint());  // 请求未认证的接口
+                    exception.accessDeniedHandler(new MyAccessDeniedHandler());            // 认证通过，但是权限不足
                 })
                 .sessionManagement(session -> {  // 会话管理
                     session.maximumSessions(1)   // 设置只有1个会话登录
